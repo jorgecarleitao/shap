@@ -17,10 +17,21 @@
 SHAP can be installed from either [PyPI](https://pypi.org/project/shap) or [conda-forge](https://anaconda.org/conda-forge/shap):
 
 <pre>
-pip install shap
+pip install shap[datasets,plots]
 <i>or</i>
-conda install -c conda-forge shap
+conda install -c conda-forge shap[datasets,plots]
 </pre>
+
+The extras `[datasets,plots]` make the installation use `['pandas', 'matplotlib', 'ipython', 'scikit-image']`, which
+are necessary for the plotting functionality and datasets provided in this package.
+
+Valid extras are:
+* `datasets`: to use the datasets on this package (`['pandas']`)
+* `plots`: to use all plots on this package (`['matplotlib', 'ipython', 'scikit-image']`)
+* `tensorflow`: to use tensorflow-based explainers (`[tensorflow, keras]`)
+* `xgboost`: to use [`xgboost`](https://github.com/dmlc/xgboost) (`[xgboost]`)
+* `xgboost`: to use [`lightgbm`](https://github.com/microsoft/LightGBM) (`[lightgbm]`)
+* `all`: all the above.
 
 ## Tree ensemble example with TreeExplainer (XGBoost/LightGBM/CatBoost/scikit-learn models)
 

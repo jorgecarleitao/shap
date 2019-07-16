@@ -60,6 +60,13 @@ def run_setup(with_binary=True, test_xgboost=True, test_lightgbm=True, test_catb
             Extension('shap._cext', sources=['shap/_cext.cc'])
         )
 
+    # all optional dependencies that make this package works for all its features:
+    # - load and use datasets
+    # - plotting functionality
+    # - tensorflow dependencies for specific models
+    dataset_requires = ['pandas']
+    plot_requires = ['matplotlib', 'ipython', 'scikit-image']
+    tensorflow_requires = ['tensorflow', 'keras']
     tests_require = ['nose']
     if test_xgboost:
         tests_require += ['xgboost']
@@ -67,6 +74,7 @@ def run_setup(with_binary=True, test_xgboost=True, test_lightgbm=True, test_catb
         tests_require += ['lightgbm']
     if test_catboost:
         tests_require += ['catboost']
+    tests_require += dataset_requires + plot_requires
 
     setup(
         name='shap',
@@ -88,7 +96,15 @@ def run_setup(with_binary=True, test_xgboost=True, test_lightgbm=True, test_catb
         package_data={'shap': ['plots/resources/*', 'tree_shap.h']},
         cmdclass={'build_ext': build_ext},
         setup_requires=['numpy'],
-        install_requires=['numpy', 'scipy', 'scikit-learn', 'matplotlib', 'pandas', 'tqdm>4.25.0', 'ipython', 'scikit-image'],
+        install_requires=['numpy', 'scipy', 'scikit-learn', 'tqdm>4.25.0'],
+        extra_requires={
+            'datasets': dataset_requires,
+            'plots': plot_requires,
+            'tensorflow': tensorflow_requires,
+            'xgboost': ['xgboost'],
+            'lightgbm': ['lightgbm'],
+            'all': dataset_requires + plot_requires + tensorflow_requires + ['xgboost', 'lightgbm'],
+        },
         test_suite='nose.collector',
         tests_require=tests_require,
         ext_modules=ext_modules,

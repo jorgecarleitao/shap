@@ -10,7 +10,7 @@ before_install:
   - sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-4.9 60 --slave /usr/bin/g++ g++ /usr/bin/g++-4.9
   - sudo apt-get install -y libgomp1
 install:
-  - pip install .
+  - pip install .[datasets,plots]
   - pip install tensorflow keras xgboost
 script: python setup.py nosetests
 # deploy:
